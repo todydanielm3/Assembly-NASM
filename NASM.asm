@@ -26,7 +26,8 @@ negate_file:
 
     ; lê e nega os dados do arquivo
     .read:
-        ; lê os dados do arquivo
+   
+ ; lê os dados do arquivo
     mov rdi, [file_handle]
     mov rsi, buf
     mov rdx, 8192

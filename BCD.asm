@@ -1,23 +1,31 @@
 section .text
+    global bcd_add
+    global bcd_sub
 
-    global soma_BINARIA ; 
-    global sub_BINARIA  ;
+bcd_add:
 
-soma_BINARIA:
-    push rbp
-    mov rbp, rsp
-    mov al, [rbp + 8]
-    add al, [rbp + 12]
-    aaa ;AJUSTE DE ADICAO ASCII
-    mov [rbp -8], al
-    pop rbp
-    ret
-sub_BINARIA:
-    push rbp
-    mov rbp, rsp
-    mov al, [rbp + 8]
-    sub al, [rbp + 12]
-    daa ;ACOMULADOR DE AJUSTE DE SUBTRACAO ASCII
-    mov [rbp -8], al
-    pop rbp
-    ret
+    push ebp          ; Salva o valor de ebp na pilha
+    mov ebp, esp      ; Atribui esp a ebp para criar um frame de pilha
+
+    xor eax, eax      ; Zera o registrador eax
+    mov al, [ebp+8]   ; Move o primeiro argumento (num1) para al
+    add al, [ebp+12]  ; Adiciona o segundo argumento (num2) a al
+    add al, 6         ; Adiciona 6 para ajustar o resultado para BCD
+    aaa               ; Ajusta o resultado para BCD
+    mov esp, ebp      ; Remove o frame de pilha
+    pop ebp           ; Restaura o valor de ebp
+    ret               ; Retorna o valor da soma em BCD
+
+bcd_sub:
+    
+    push ebp          ; Salva o valor de ebp na pilha
+    mov ebp, esp      ; Atribui esp a ebp para criar um frame de pilha
+
+    xor eax, eax      ; Zera o registrador eax
+    mov al, [ebp+8]   ; Move o primeiro argumento (num1) para al
+    sub al, [ebp+12]  ; Subtrai o segundo argumento (num2) de al
+    sub al, 6         ; Subtrai 6 para ajustar o resultado para BCD
+    das               ; Ajusta o resultado para BCD
+    mov esp, ebp      ; Remove o frame de pilha
+    pop ebp           ; Restaura o valor de ebp
+    ret               ; Retorna o valor da subtração em BCD
